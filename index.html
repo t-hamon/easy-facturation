@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturation — Logiciel de facturation conforme 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- BARRE LATÉRALE -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark">Fa</span>
+      <div>
+        <h1>Facturation</h1>
+        <p>Conforme 2026</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item active" data-view="invoice">
+        <span class="nav-dot"></span>Nouvelle facture
+      </button>
+      <button class="nav-item" data-view="history">
+        <span class="nav-dot"></span>Historique
+      </button>
+      <button class="nav-item" data-view="settings">
+        <span class="nav-dot"></span>Ma société
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p class="small">Données stockées localement sur votre appareil. Aucun envoi vers Internet.</p>
+    </div>
+  </aside>
+
+  <!-- ZONE PRINCIPALE -->
+  <main class="main">
+    <!-- VUE : NOUVELLE FACTURE -->
+    <section class="view active" id="view-invoice">
+      <header class="view-header">
+        <div>
+          <p class="eyebrow">Création</p>
+          <h2>Nouvelle facture</h2>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost" id="btn-reset">Réinitialiser</button>
+          <button class="btn btn-secondary" id="btn-save">Enregistrer</button>
+          <button class="btn btn-primary" id="btn-export">Exporter en PDF</button>
+        </div>
+      </header>
+
+      <form id="invoice-form" class="invoice-form" autocomplete="off">
+        <!-- 1. LOGO & ÉMETTEUR -->
+        <fieldset class="card">
+          <legend>1. Société émettrice</legend>
+
+          <div class="grid two">
+            <div class="logo-zone">
+              <label class="label">Logo</label>
+              <div class="logo-preview" id="logo-preview">
+                <span>Aucun logo</span>
+              </div>
+              <div class="logo-actions">
+                <label class="btn btn-ghost btn-sm">
+                  Téléverser
+                  <input type="file" id="logo-input" accept="image/*" hidden />
+                </label>
+                <button type="button" class="btn btn-ghost btn-sm" id="logo-remove">Retirer</button>
+              </div>
+            </div>
+
+            <div class="grid one">
+              <div class="field">
+                <label for="issuer-name">
+                  Dénomination sociale <span class="req">*</span>
+                </label>
+                <input type="text" id="issuer-name" placeholder="Ex : Dupont Conseil" />
+              </div>
+
+              <div class="grid two">
+                <div class="field">
+                  <label for="issuer-legal-form">
+                    Forme juridique <span class="req">*</span>
+                  </label>
+                  <select id="issuer-legal-form">
+                    <option value="">— Sélectionner —</option>
+                    <option>Entreprise Individuelle (EI)</option>
+                    <option>Micro-entreprise</option>
+                    <option>EURL</option>
+                    <option>SARL</option>
+                    <option>SAS</option>
+                    <option>SASU</option>
+                    <option>SA</option>
+                    <option>SCI</option>
+                    <option>SNC</option>
+                    <option>Association loi 1901</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="issuer-capital">
+                    Capital social
+                    <button type="button" class="help" data-help="capital">?</button>
+                  </label>
+                  <input type="text" id="issuer-capital" placeholder="Ex : 1 000 €" />
+                </div>
+              </div>
+
+              <div class="grid two">
+                <div class="field">
+                  <label for="issuer-siret">
+                    Numéro SIRET <span class="req">*</span>
+                    <button type="button" class="help" data-help="siret">?</button>
+                  </label>
+                  <input type="text" id="issuer-siret" placeholder="14 chiffres" maxlength="14" />
+                </div>
+                <div class="field">
+                  <label for="issuer-rcs">
+                    Numéro RCS / RM
+                    <button type="button" class="help" data-help="rcs">?</button>
+                  </label>
+                  <input type="text" id="issuer-rcs" placeholder="Ex : RCS Paris 123 456 789" />
+                </div>
+              </div>
+
+              <div class="grid two">
+                <div class="field">
+                  <label for="issuer-vat-num">
+                    N° TVA intracommunautaire
+                    <button type="button" class="help" data-help="vat-num">?</button>
+                  </label>
+                  <input type="text" id="issuer-vat-num" placeholder="Ex : FR12345678901" />
+                </div>
+                <div class="field">
+                  <label for="issuer-ape">Code APE / NAF</label>
+                  <input type="text" id="issuer-ape" placeholder="Ex : 6201Z" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="issuer-address">
+                  Adresse du siège social <span class="req">*</span>
+                </label>
+                <textarea id="issuer-address" rows="2" placeholder="N°, rue, code postal, ville"></textarea>
+              </div>
+
+              <div class="grid two">
+                <div class="field">
+                  <label for="issuer-phone">Téléphone</label>
+                  <input type="tel" id="issuer-phone" placeholder="Ex : 01 23 45 67 89" />
+                </div>
+                <div class="field">
+                  <label for="issuer-email">Email</label>
+                  <input type="email" id="issuer-email" placeholder="contact@société.fr" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-action">
+            <button type="button" class="btn btn-ghost btn-sm" id="btn-save-issuer">
+              Mémoriser ces informations
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- 2. INFOS FACTURE -->
+        <fieldset class="card">
+          <legend>2. Identification de la facture</legend>
+          <div class="grid three">
+            <div class="field">
+              <label for="invoice-number">
+                Numéro de facture <span class="req">*</span>
+                <button type="button" class="help" data-help="invoice-number">?</button>
+              </label>
+              <input type="text" id="invoice-number" placeholder="Ex : FAC-2026-0001" />
+              <p class="hint" id="invoice-number-hint"></p>
+            </div>
+            <div class="field">
+              <label for="issue-date">
+                Date d'émission <span class="req">*</span>
+                <button type="button" class="help" data-help="issue-date">?</button>
+              </label>
+              <input type="date" id="issue-date" />
+            </div>
+            <div class="field">
+              <label for="due-date">
+                Date d'échéance <span class="req">*</span>
+                <button type="button" class="help" data-help="due-date">?</button>
+              </label>
+              <input type="date" id="due-date" />
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="field">
+              <label for="sale-type">
+                Type de vente <span class="req">*</span>
+                <button type="button" class="help" data-help="sale-type">?</button>
+              </label>
+              <select id="sale-type">
+                <option value="">— Sélectionner —</option>
+                <option>Livraison de biens</option>
+                <option>Prestation de services</option>
+                <option>Opération mixte (biens et services)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="payment-terms">Conditions de règlement</label>
+              <select id="payment-terms">
+                <option>Paiement à réception</option>
+                <option selected>30 jours nets</option>
+                <option>45 jours nets</option>
+                <option>45 jours fin de mois</option>
+                <option>60 jours nets</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. DESTINATAIRE -->
+        <fieldset class="card">
+          <legend>3. Destinataire</legend>
+          <div class="toggle-row">
+            <span>Type de destinataire :</span>
+            <div class="toggle">
+              <button type="button" class="toggle-opt active" data-recipient="company">Entreprise</button>
+              <button type="button" class="toggle-opt" data-recipient="individual">Particulier</button>
+            </div>
+          </div>
+
+          <!-- Destinataire ENTREPRISE -->
+          <div id="recipient-company" class="recipient-block">
+            <div class="grid two">
+              <div class="field">
+                <label for="recipient-co-name">
+                  Dénomination sociale <span class="req">*</span>
+                </label>
+                <input type="text" id="recipient-co-name" />
+              </div>
+              <div class="field">
+                <label for="recipient-co-legal">Forme juridique</label>
+                <select id="recipient-co-legal">
+                  <option value="">— Sélectionner —</option>
+                  <option>EI</option>
+                  <option>Micro-entreprise</option>
+                  <option>EURL</option>
+                  <option>SARL</option>
+                  <option>SAS</option>
+                  <option>SASU</option>
+                  <option>SA</option>
+                  <option>SCI</option>
+                  <option>SNC</option>
+                  <option>Association loi 1901</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid two">
+              <div class="field">
+                <label for="recipient-co-siren">
+                  Numéro SIREN <span class="req">*</span>
+                  <button type="button" class="help" data-help="recipient-siren">?</button>
+                </label>
+                <input type="text" id="recipient-co-siren" placeholder="9 chiffres" maxlength="9" />
+              </div>
+              <div class="field">
+                <label for="recipient-co-vat">N° TVA intracommunautaire</label>
+                <input type="text" id="recipient-co-vat" placeholder="Ex : FR12345678901" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="recipient-co-address">
+                Adresse de facturation <span class="req">*</span>
+              </label>
+              <textarea id="recipient-co-address" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label class="checkbox">
+                <input type="checkbox" id="different-delivery" />
+                Adresse de livraison différente
+                <button type="button" class="help" data-help="delivery-address">?</button>
+              </label>
+            </div>
+            <div class="field hidden" id="delivery-field">
+              <label for="recipient-co-delivery">Adresse de livraison</label>
+              <textarea id="recipient-co-delivery" rows="2"></textarea>
+            </div>
+          </div>
+
+          <!-- Destinataire PARTICULIER -->
+          <div id="recipient-individual" class="recipient-block hidden">
+            <div class="grid two">
+              <div class="field">
+                <label for="recipient-ind-civility">Civilité</label>
+                <select id="recipient-ind-civility">
+                  <option value="">—</option>
+                  <option>Mme</option>
+                  <option>M.</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="recipient-ind-firstname">Prénom</label>
+                <input type="text" id="recipient-ind-firstname" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="recipient-ind-lastname">
+                Nom <span class="req">*</span>
+              </label>
+              <input type="text" id="recipient-ind-lastname" />
+            </div>
+            <div class="field">
+              <label for="recipient-ind-address">
+                Adresse <span class="req">*</span>
+              </label>
+              <textarea id="recipient-ind-address" rows="2"></textarea>
+            </div>
+            <div class="grid two">
+              <div class="field">
+                <label for="recipient-ind-email">Email</label>
+                <input type="email" id="recipient-ind-email" />
+              </div>
+              <div class="field">
+                <label for="recipient-ind-phone">Téléphone</label>
+                <input type="tel" id="recipient-ind-phone" />
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 4. LIGNES DE FACTURE -->
+        <fieldset class="card">
+          <legend>4. Détail de la facture</legend>
+          <div class="table-wrap">
+            <table class="lines-table">
+              <thead>
+                <tr>
+                  <th>Désignation</th>
+                  <th>Date</th>
+                  <th>Quantité</th>
+                  <th>Unité</th>
+                  <th>Prix unitaire HT</th>
+                  <th>TVA %</th>
+                  <th>Total HT</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="lines-body"></tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-ghost" id="btn-add-line">+ Ajouter une ligne</button>
+        </fieldset>
+
+        <!-- 5. TOTAUX -->
+        <fieldset class="card">
+          <legend>5. Totaux</legend>
+          <div class="totals">
+            <div class="total-row">
+              <span>Total HT</span>
+              <span id="total-ht">0,00 €</span>
+            </div>
+            <div class="total-row">
+              <span>Total TVA</span>
+              <span id="total-vat">0,00 €</span>
+            </div>
+            <div class="total-row big">
+              <span>Total TTC</span>
+              <span id="total-ttc">0,00 €</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 6. DÉTAIL TVA -->
+        <fieldset class="card">
+          <legend>6. Détail de la TVA</legend>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" id="no-vat" />
+              Je ne suis pas assujetti à la TVA (franchise en base)
+              <button type="button" class="help" data-help="vat-status">?</button>
+            </label>
+          </div>
+          <div class="table-wrap">
+            <table class="vat-table">
+              <thead>
+                <tr>
+                  <th>Taux</th>
+                  <th>Base HT</th>
+                  <th>Montant TVA</th>
+                </tr>
+              </thead>
+              <tbody id="vat-body"></tbody>
+            </table>
+          </div>
+          <p class="legal-note" id="vat-exemption-note">
+            TVA non applicable, art. 293 B du CGI
+          </p>
+        </fieldset>
+
+        <!-- 7. PAIEMENT -->
+        <fieldset class="card">
+          <legend>7. Modalités de paiement</legend>
+          <div class="grid two">
+            <div class="field">
+              <label for="payment-method">Moyen de paiement</label>
+              <select id="payment-method">
+                <option>Virement bancaire</option>
+                <option>Chèque</option>
+                <option>Carte bancaire</option>
+                <option>Espèces</option>
+                <option>Prélèvement SEPA</option>
+                <option>PayPal</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="payment-bank">Établissement bancaire</label>
+              <input type="text" id="payment-bank" placeholder="Ex : Crédit Agricole" />
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="field">
+              <label for="payment-iban">IBAN</label>
+              <input type="text" id="payment-iban" placeholder="FR76 ..." />
+            </div>
+            <div class="field">
+              <label for="payment-bic">BIC</label>
+              <input type="text" id="payment-bic" placeholder="Ex : AGRIFRPP" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="payment-reference">Référence à indiquer (pour virement)</label>
+            <input type="text" id="payment-reference" placeholder="Numéro de facture par défaut" />
+          </div>
+        </fieldset>
+
+        <!-- 8. MENTIONS LÉGALES -->
+        <fieldset class="card">
+          <legend>8. Mentions légales (obligatoires)</legend>
+          <p class="legal-text">
+            Pénalités de retard : trois fois le taux d'intérêt légal en vigueur calculé depuis la date d'échéance jusqu'à complet paiement du prix.<br />
+            Indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement : 40 €.
+          </p>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" id="vat-on-debits" />
+              Option pour le paiement de la TVA d'après les débits
+              <button type="button" class="help" data-help="vat-debits">?</button>
+            </label>
+          </div>
+          <div class="field">
+            <label for="extra-notes">Notes complémentaires (facultatif)</label>
+            <textarea id="extra-notes" rows="3" placeholder="Ex : numéro de bon de commande, conditions particulières..."></textarea>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- VUE : HISTORIQUE -->
+    <section class="view" id="view-history">
+      <header class="view-header">
+        <div>
+          <p class="eyebrow">Archives</p>
+          <h2>Historique des factures</h2>
+        </div>
+      </header>
+      <div id="history-list" class="history-list">
+        <p class="empty">Aucune facture enregistrée pour le moment.</p>
+      </div>
+    </section>
+
+    <!-- VUE : PARAMÈTRES SOCIÉTÉ -->
+    <section class="view" id="view-settings">
+      <header class="view-header">
+        <div>
+          <p class="eyebrow">Réglages</p>
+          <h2>Ma société</h2>
+        </div>
+      </header>
+      <div class="card">
+        <p class="hint">
+          Les informations de votre société émettrice sont automatiquement mémorisées dans votre navigateur après la première facture.
+          Vous pouvez les modifier directement dans le formulaire de facture, puis cliquer sur « Mémoriser ces informations ».
+        </p>
+        <div class="settings-info">
+          <div id="saved-issuer-info">
+            <p class="empty">Aucune information mémorisée.</p>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-clear-issuer">
+            Effacer les informations mémorisées
+          </button>
+          <p class="hint">
+            <strong>!! ATTENTION !! Pour la facturation B2B (entre professionnels)</strong> :
+            A partir du <strong>1er Septembre 2027</strong> vos factures B2B pour les TPE/PME/micro-entreprises devront obligatoirement transiter par une <strong>Plateforme Agréée (PA)</strong> immatriculée par l'état. Ce logiciel génère un PDF conforme, mais ne peut pas transmettre vos factures à la <strong>PA</strong>. Cela nécessite une inscription chez un opérateur agréé.
+
+            <strong>La démarche</strong> :
+            1. Inscrivez-vous (gratuitement pour les petits volumes) chez une PA telle que <strong>Tiime, Abby, Indy, Dougs Facturation</strong> ou <strong>Qonto</strong>. Toutes proposent un plan gratuit pour les indépendants et TPE.
+            2. Signez le mandat désignant cette PA dans l'annuaire officiel (rattachée à votre SIREN)
+            3. Téléversez le <strong>PDF généré</strong> par ce logiciel dans votre PA. Elle se charge de la conversion en Factur-X et de la transmission.
+            4. La <strong>liste officielle complète</strong> des PA est sur impots.gouv.fr (112 plateformes immatriculées au moment de la création de ce Readme)
+
+            Pour la facturation aux <strong>particuliers (B2C)</strong>, ou aux <strong>clients étrangers</strong> : Ce logiciel suffit, aucune PA n'est recquise.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODALE D'AIDE -->
+  <div class="modal-overlay" id="help-modal" hidden>
+    <div class="modal">
+      <header>
+        <h3 id="help-title">Aide</h3>
+        <button class="modal-close" id="help-close">×</button>
+      </header>
+      <div class="modal-body" id="help-content"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" hidden></div>
+
+  <!-- Librairies de génération PDF (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- Scripts de l'application -->
+  <script src="help-content.js"></script>
+  <script src="data-manager.js"></script>
+  <script src="pdf-export.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
