@@ -2,7 +2,7 @@
 
 Un logiciel de facturation **100 % local**, **gratuit** et **conforme à la réglementation française 2026**. Il fonctionne directement dans votre navigateur, sans serveur, sans envoi de données sur Internet.
 
-**[Essayer en ligne](https://VOTRE-PSEUDO.github.io/facturation/)** · **[Télécharger](https://github.com/VOTRE-PSEUDO/facturation/archive/refs/heads/main.zip)**
+**[Essayer en ligne]([https://t-hamon.github.io/easy-facturation/])** · **[Télécharger](https://github.com/t-hamon/easy-facturation/archive/refs/heads/main.zip)**
 
 ## Caractéristiques
 
