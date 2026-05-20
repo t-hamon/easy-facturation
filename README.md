@@ -2,6 +2,8 @@
 
 Un logiciel de facturation **100 % local**, **gratuit** et **conforme à la réglementation française 2026**. Il fonctionne directement dans votre navigateur, sans serveur, sans envoi de données sur Internet.
 
+**[Essayer en ligne](https://VOTRE-PSEUDO.github.io/facturation/)** · **[Télécharger](https://github.com/VOTRE-PSEUDO/facturation/archive/refs/heads/main.zip)**
+
 ## Caractéristiques
 
 - **20 mentions obligatoires** de la facturation française intégrées (Code de commerce, CGI)
